@@ -4,6 +4,7 @@ return [
     'controllers' => [
         'factories' => [
             'Neatline\Controller\Admin\Exhibits' => 'Neatline\Service\Controller\ExhibitsControllerFactory',
+            'Neatline\Controller\Index' => 'Neatline\Service\Controller\IndexControllerFactory',
         ],
     ],
     'api_adapters' => [
@@ -44,6 +45,18 @@ return [
     ],
     'router' => [
         'routes' => [
+            'neatline' => [
+                'type' => 'Literal',
+                'options' => [
+                    'route' => '/neatline',
+                    'defaults' => [
+                        '__NAMESPACE__' => 'Neatline\Controller',
+                        'controller' => 'index',
+                        'action' => 'index',
+                    ],
+                ],
+                'may_terminate' => true,
+            ],
             'admin' => [
                 'child_routes' => [
                     'site' => [

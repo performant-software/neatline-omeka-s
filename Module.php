@@ -25,7 +25,8 @@ class Module extends AbstractModule
         $acl = $this->getServiceLocator()->get('Omeka\Acl');
         $acl->allow(
             null,
-            ['Neatline\Api\Adapter\ExhibitAdapter']
+            ['Neatline\Controller\Index',
+             'Neatline\Api\Adapter\ExhibitAdapter']
         );
         $acl->allow(
             Acl::ROLE_GLOBAL_ADMIN,
