@@ -7,10 +7,10 @@ class ExhibitRepresentation extends AbstractEntityRepresentation
 {
     public function getJsonLd()
     {
-        // $records = [];
-        // foreach ($this->records() as $recordRepresentation) {
-        //     $records[] = $recordRepresentation->getReference();
-        // }
+        $records = [];
+        foreach ($this->records() as $recordRepresentation) {
+            $records[] = $recordRepresentation->getReference();
+        }
 
         $owner = null;
         if ($this->owner()) {
@@ -37,6 +37,7 @@ class ExhibitRepresentation extends AbstractEntityRepresentation
         }
 
         return [
+            'o:records' => $records,
             'o:owner' => $owner,
             'o:added' => $added,
             'o:modified' => $modified,
@@ -69,6 +70,20 @@ class ExhibitRepresentation extends AbstractEntityRepresentation
     public function getJsonLdType()
     {
         return 'o:NeatlineExhibit';
+    }
+
+    /**
+     * Get the record representations associated with this exhibit.
+     *
+     * @return array<RecordRepresentation>
+     */
+    public function records()
+    {
+        $records = [];
+        forEach ($this->resource->getRecords() as $recordEntity) {
+            $records[] = $this->getAdapter('neatline_records')->getRepresentation($recordEntity);
+        }
+        return $records;
     }
 
     /**
