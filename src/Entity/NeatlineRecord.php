@@ -5,7 +5,7 @@ use DateTime;
 use Omeka\Entity\AbstractEntity;
 use Omeka\Entity\User;
 use Neatline\Entity\NeatlineExhibit;
-use CrEOF\Spatial\PHP\Types\Geometry\Point;
+use Neatline\PHP\Types\Geometry\GeometryCollection;
 
 /**
  * @package     omeka
@@ -86,7 +86,7 @@ class NeatlineRecord extends AbstractEntity
     protected $body;
 
     /**
-     * @Column(type="point")
+     * @Column(type="geometry_collection")
      */
     protected $coverage;
 
@@ -326,7 +326,7 @@ class NeatlineRecord extends AbstractEntity
     	return $this->body;
     }
 
-    public function setCoverage(Point $coverage)
+    public function setCoverage(GeometryCollection $coverage)
     {
     	$this->coverage = $coverage;
     }

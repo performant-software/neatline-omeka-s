@@ -25,7 +25,8 @@ class Module extends AbstractModule
     {
         parent::onBootstrap($event);
 
-        Type::addType('point', 'CrEOF\Spatial\DBAL\Types\Geometry\PointType');
+        class_alias('Neatline\PHP\Types\Geometry\GeometryCollection', 'CrEOF\Spatial\PHP\Types\Geometry\GeometryCollection');
+        Type::addType('geometry_collection', 'Neatline\DBAL\Types\Geometry\GeometryCollectionType');
 
         $acl = $this->getServiceLocator()->get('Omeka\Acl');
         $acl->allow(
