@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'is_dev_mode' => false,
     'controllers' => [
         'factories' => [
             'Neatline\Controller\Admin\Exhibits' => 'Neatline\Service\Controller\ExhibitsControllerFactory',
@@ -10,11 +11,19 @@ return [
     'api_adapters' => [
         'invokables' => [
             'neatline_exhibits' => 'Neatline\Api\Adapter\ExhibitAdapter',
+            'neatline_records' => 'Neatline\Api\Adapter\RecordAdapter',
         ],
     ],
     'entity_manager' => [
         'mapping_classes_paths' => [
             OMEKA_PATH . '/modules/Neatline/src/Entity',
+        ],
+        'resource_discriminator_map' => [
+            'Neatline\Entity\NeatlineExhibit' => 'Neatline\Entity\NeatlineExhibit',
+            'Neatline\Entity\NeatlineRecord' => 'Neatline\Entity\NeatlineRecord',
+        ],
+        'proxy_paths' => [
+            OMEKA_PATH . '/modules/Neatline/data/doctrine-proxies',
         ],
     ],
     'view_manager' => [
@@ -56,6 +65,22 @@ return [
                     ],
                 ],
                 'may_terminate' => true,
+            ],
+            'site' => [
+                'child_routes' => [
+                    'neatline' => [
+                        'type' => 'Literal',
+                        'options' => [
+                            'route' => '/neatline',
+                            'defaults' => [
+                                '__NAMESPACE__' => 'Neatline\Controller',
+                                'controller' => 'index',
+                                'action' => 'index',
+                            ],
+                        ],
+                        'may_terminate' => true,
+                    ],
+                ],
             ],
             'admin' => [
                 'child_routes' => [

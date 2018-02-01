@@ -10,6 +10,9 @@ use Zend\EventManager\SharedEventManagerInterface;
 use Zend\EventManager\Event as ZendEvent;
 use Zend\Mvc\MvcEvent;
 use Omeka\Permissions\Acl;
+use Doctrine\DBAL\Types\Type;
+
+require_once __DIR__.'/vendor/autoload.php';
 
 class Module extends AbstractModule
 {
@@ -22,11 +25,16 @@ class Module extends AbstractModule
     {
         parent::onBootstrap($event);
 
+        Type::addType('point', 'CrEOF\Spatial\DBAL\Types\Geometry\PointType');
+
         $acl = $this->getServiceLocator()->get('Omeka\Acl');
         $acl->allow(
             null,
             ['Neatline\Controller\Index',
-             'Neatline\Api\Adapter\ExhibitAdapter']
+             'Neatline\Api\Adapter\ExhibitAdapter',
+             'Neatline\Api\Adapter\RecordAdapter',
+             'Neatline\Entity\NeatlineExhibit',
+             'Neatline\Entity\NeatlineRecord']
         );
         $acl->allow(
             Acl::ROLE_GLOBAL_ADMIN,

@@ -1,4 +1,4 @@
 [submodule "asset/neatline"]
 	path = asset/neatline
-	url = https://6f2d0fb54eefa9e9affbb944c4697434abc85805:x-oauth-basic@github.com/performant-software/neatline-3.git
-  branch = aks/public-view
+	url = https://github.com/performant-software/neatline-3.git
+  branch = aks/records

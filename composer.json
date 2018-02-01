@@ -1,0 +1,9 @@
+{
+    "name": "neatline/neatline-omeka-s",
+    "require": {
+        "CrEOF/doctrine2-spatial": "^1.2"
+    },
+    "replace": {
+        "doctrine/orm": "*"
+    }
+}
