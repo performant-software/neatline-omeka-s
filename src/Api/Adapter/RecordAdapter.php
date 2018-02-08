@@ -8,7 +8,7 @@ use Omeka\Api\Request;
 use Omeka\Entity\EntityInterface;
 use Omeka\Stdlib\ErrorStore;
 use Omeka\Api\Adapter\SiteSlugTrait;
-use CrEOF\Spatial\PHP\Types\Geometry\Point;
+use Neatline\PHP\Types\Geometry\GeometryCollection;
 
 class RecordAdapter extends AbstractEntityAdapter
 {
@@ -60,13 +60,14 @@ class RecordAdapter extends AbstractEntityAdapter
         $coverage = $entity->getCoverage();
         if (isset($data['o:coverage'])) {
             $is_coverage = true;
-            if (isset($data['o:coverage']['coordinates'])) {
-                $coverage = new Point($data['o:coverage']['coordinates'][0],
-                                      $data['o:coverage']['coordinates'][1]);
+            if (isset($data['o:coverage']['features'])) {
+                // $coverage = new Point($data['o:coverage']['coordinates'][0],
+                //                       $data['o:coverage']['coordinates'][1]);
+                $coverage = new GeometryCollection($data['o:coverage']['features']);
             }
         }
         if ($coverage === null) {
-            $coverage = new Point(0, 0);
+            $coverage = new GeometryCollection(array());
         }
         $entity->setCoverage($coverage);
 
