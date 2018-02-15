@@ -31,6 +31,12 @@ return [
             OMEKA_PATH . '/modules/Neatline/view',
         ],
     ],
+    'service_manager' => [
+        'factories' => [
+            'Omeka\AuthenticationService' => 'Neatline\Service\NeatlineAuthenticationServiceFactory',
+            'Neatline\NeatlineStatus' => 'Neatline\Service\NeatlineStatusFactory',
+        ],
+    ],
     'form_elements' => [
         'factories' => [
             'Neatline\Form\ExhibitForm' => 'Neatline\Service\Form\ExhibitFormFactory',

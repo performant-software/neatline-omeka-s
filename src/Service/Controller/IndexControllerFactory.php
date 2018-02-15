@@ -11,6 +11,7 @@ class IndexControllerFactory implements FactoryInterface
     {
         $config = $serviceLocator->get('Config');
         $indexController = new IndexController($config);
+        $indexController->setServiceLocator($serviceLocator);
         return $indexController;
     }
 }

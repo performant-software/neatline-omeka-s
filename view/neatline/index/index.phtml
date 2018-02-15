@@ -2,6 +2,9 @@
 $this->headLink()->appendStylesheet($this->assetUrl('neatline/build/'. $this->asset_manifest['main.css'], 'Neatline'));
 ?>
 <div id="root"></div>
+<script>
+    window.jwt = <?php echo !$this->jwt ? 'null' : '\'' . $this->jwt . '\'' ?>;
+</script>
 <?php
 echo $this->inlineScript()
     ->prependFile($this->assetUrl('neatline/build/' . $this->asset_manifest['main.js'], 'Neatline'));
