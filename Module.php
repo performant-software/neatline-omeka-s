@@ -33,13 +33,12 @@ class Module extends AbstractModule
             null,
             ['Neatline\Controller\Index',
              'Neatline\Api\Adapter\ExhibitAdapter',
-             'Neatline\Api\Adapter\RecordAdapter',
-             'Neatline\Entity\NeatlineExhibit',
-             'Neatline\Entity\NeatlineRecord']
+             'Neatline\Api\Adapter\RecordAdapter']
         );
         $acl->allow(
             Acl::ROLE_GLOBAL_ADMIN,
-            ['Neatline\Entity\NeatlineExhibit'],
+            ['Neatline\Entity\NeatlineExhibit',
+             'Neatline\Entity\NeatlineRecord'],
             'view-all'
         );
     }
@@ -172,6 +171,13 @@ class Module extends AbstractModule
             'api.search.query',
             [$this, 'filterExhibits']
         );
+
+        $sharedEventManager->attach(
+            '*',
+            MvcEvent::EVENT_ROUTE,
+            [$this, 'processApiRequest'],
+            2
+        );
     }
 
     public function filterExhibits(ZendEvent $event)
@@ -184,5 +190,25 @@ class Module extends AbstractModule
         $qb = $event->getParam('queryBuilder');
         $expression = $qb->expr()->eq('Neatline\Entity\NeatlineExhibit.public', true);
         $qb->andWhere($expression);
+    }
+
+    /**
+     * Provides a workaround for Omeka's assumption of key-secret authentication method for API endpoints, letting Neatline endpoints use JWT instead.
+     */
+    public function processApiRequest(MvcEvent $event)
+    {
+        $status = $this->getServiceLocator()->get('Neatline\NeatlineStatus');
+        if ($status->isNeatlineApiRequest()) {
+            $params = $event->getRequest()->getQuery();
+            $jwt = $params->get('jwt');
+            if ($jwt) {
+                if (!$params->get('key_identity')) $params->set('key_identity', '');
+                if (!$params->get('key_credential')) $params->set('key_credential', '');
+
+                $auth = $event->getApplication()->getServiceManager()
+                    ->get('Omeka\AuthenticationService');
+                $auth->getAdapter()->setJwt($jwt);
+            }
+        }
     }
 }
