@@ -60,24 +60,15 @@ return [
     ],
     'router' => [
         'routes' => [
-            'neatline' => [
-                'type' => 'Literal',
-                'options' => [
-                    'route' => '/neatline',
-                    'defaults' => [
-                        '__NAMESPACE__' => 'Neatline\Controller',
-                        'controller' => 'index',
-                        'action' => 'index',
-                    ],
-                ],
-                'may_terminate' => true,
-            ],
             'site' => [
                 'child_routes' => [
                     'neatline' => [
-                        'type' => 'Literal',
+                        'type' => 'Segment',
                         'options' => [
-                            'route' => '/neatline',
+                            'route' => '/neatline[/:spa_route[/:spa_subroute[/:spa_subroute_1[/:spa_subroute_2]]]]',
+                            'constraints' => [
+                                'spa_route' => 'show|add',
+                            ],
                             'defaults' => [
                                 '__NAMESPACE__' => 'Neatline\Controller',
                                 'controller' => 'index',
@@ -85,6 +76,20 @@ return [
                             ],
                         ],
                         'may_terminate' => true,
+                        'child_routes' => [
+                            'full' => [
+                                'type' => 'Segment',
+                                'options' => [
+                                    'route' => '/full[/:spa_route[/:spa_subroute[/:spa_subroute_1[/:spa_subroute_2]]]]',
+                                    'constraints' => [
+                                        'spa_route' => 'show|add',
+                                    ],
+                                    'defaults' => [
+                                        'action' => 'full',
+                                    ],
+                                ],
+                            ],
+                        ],
                     ],
                 ],
             ],

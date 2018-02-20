@@ -56,7 +56,7 @@ class ExhibitRepresentation extends AbstractEntityRepresentation
             'o:slug' => $this->slug(),
             'o:narrative' => $this->narrative(),
             'o:spatial_querying' => $this->spatialQuerying(),
-            'o:public' => $this->public(),
+            'o:public' => $this->isPublic(),
             'o:styles' => $this->styles(),
             'o:map_focus' => $this->mapFocus(),
             'o:map_zoom' => $this->mapZoom(),
@@ -182,7 +182,7 @@ class ExhibitRepresentation extends AbstractEntityRepresentation
     	return $this->resource->getSpatialQuerying();
     }
 
-    public function public()
+    public function isPublic()
     {
     	return $this->resource->getPublic();
     }
