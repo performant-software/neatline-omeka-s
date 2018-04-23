@@ -1,0 +1,18 @@
+<html>
+<head>
+  <link rel="stylesheet" href="<?php echo $this->assetUrl('neatline/build/' . $this->asset_manifest['main.css'], 'Neatline'); ?>" media="screen">
+  <link rel="stylesheet" href="/application/asset/css/style.css" media="screen">
+  <link rel="stylesheet" href="/application/asset/css/iconfonts.css" media="screen">
+</head>
+<body>
+<div id="root"></div>
+<script>
+    window.jwt = <?php echo !$this->jwt ? 'null' : '\'' . $this->jwt . '\'' ?>;
+    window.baseRoute = '/s/<?php echo $this->site_slug ?>/neatline/full';
+</script>
+<?php
+echo $this->inlineScript()
+    ->prependFile($this->assetUrl('neatline/build/' . $this->asset_manifest['main.js'], 'Neatline'));
+?>
+</body>
+</html>

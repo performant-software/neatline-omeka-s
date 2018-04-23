@@ -11,9 +11,13 @@ class IndexController extends AbstractActionController
 
     protected $serviceLocator;
 
-    public function indexAction()
+    protected function neatlineIndex($full = false)
     {
         $view = new ViewModel();
+        if ($full) {
+            $view->setTerminal(true);
+        }
+        $view->site_slug = $this->getEvent()->getRouteMatch()->getParam('site-slug');
         $asset_manifest = file_get_contents('modules/Neatline/asset/neatline/build/asset-manifest.json');
         $view->asset_manifest = json_decode($asset_manifest, true);
 
@@ -40,6 +44,16 @@ class IndexController extends AbstractActionController
         }
 
         return $view;
+    }
+
+    public function indexAction()
+    {
+        return $this->neatlineIndex(false);
+    }
+
+    public function fullAction()
+    {
+        return $this->neatlineIndex(true);
     }
 
     public function setServiceLocator($serviceLocator)

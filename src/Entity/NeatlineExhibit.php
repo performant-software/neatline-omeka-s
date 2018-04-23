@@ -224,12 +224,12 @@ class NeatlineExhibit extends AbstractEntity
 
     public function setSpatialLayers($spatial_layers)
     {
-        $this->spatial_layers = $spatial_layers;
+        $this->spatial_layers = implode(",", $spatial_layers);
     }
 
     public function getSpatialLayers()
     {
-        return $this->spatial_layers;
+        return array_filter(explode(",", $this->spatial_layers));
     }
 
     public function setSpatialLayer($spatial_layer)
@@ -352,9 +352,9 @@ class NeatlineExhibit extends AbstractEntity
         return (bool) $this->spatial_querying;
     }
 
-    public function setPublic($public)
+    public function setPublic($isPublic)
     {
-        $this->public = (bool) $public;
+        $this->public = (bool) $isPublic;
     }
 
     public function getPublic()

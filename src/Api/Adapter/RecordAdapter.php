@@ -61,13 +61,11 @@ class RecordAdapter extends AbstractEntityAdapter
         if (isset($data['o:coverage'])) {
             $is_coverage = true;
             if (isset($data['o:coverage']['features'])) {
-                // $coverage = new Point($data['o:coverage']['coordinates'][0],
-                //                       $data['o:coverage']['coordinates'][1]);
                 $coverage = new GeometryCollection($data['o:coverage']['features']);
             }
         }
         if ($coverage === null) {
-            $coverage = new GeometryCollection(array());
+            $coverage = new GeometryCollection(array(array('type' => 'Feature', 'geometry' => array('type' => 'Point', 'coordinates' => array(0, 0)))));
         }
         $entity->setCoverage($coverage);
 
