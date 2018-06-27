@@ -1,3 +1,5 @@
+## *Note: this module is still under initial development and does not yet provide the full functionality of [Neatline 2.6.1 for Omeka Classic](https://omeka.org/classic/plugins/Neatline/).*
+
 ## Neatline 3 Omeka S adapter
 
 This module for [Omeka S](http://omeka.org/s/) provides the latest version of Neatline, a suite of tools for scholars, students, and curators to tell stories with maps and timelines. Neatline 3 is in early development.
@@ -16,3 +18,15 @@ Adding the submodule directory will enable you to access the Neatline view by ap
 
 #### API authentication in local development
 Neatline uses JSON web tokens (JWTs) to handle user authentication between the front end application and back end adapter. When running the front end independently from the back end in a local development setup, you can authenticate API calls by adding a `jwt` url parameter. To get the value for this parameter, open the neatline view inside your local Omeka S instance. In your browser's JavaScript console, enter `jwt` — the JWT string that is printed will work for your independent front end application when used as the value for the `jwt` URL parameter.
+
+### Heroku deployment
+Pending a more streamlined workflow for staging and review app deployment, the following approach with Git and Heroku is recommended.
+- Set up a deployment-only copy of Omeka S: `git clone git@github.com:omeka/omeka-s.git omeka-neatline-deployment`. Using a separate, Git-managed copy for deployment will help you cleanly manage submodule updates without otherwise touching any of the codebase.
+- Add this repository to the modules directory of your deployment Omeka S as Neatline: `cd omeka-neatline-deployment`, then `git submodule add git@github.com:performant-software/neatline-omeka-s.git modules/Neatline`.
+- Initialize the front-end repository's nested submodule: `git submodule update --init --recursive`.
+- When you want to deploy a feature branch in the front-end repository (https://github.com/performant-software/neatline-3), from the directory you use for front-end development, build the React asset files using `yarn build` and commit and push these to your branch.
+- In your deployment-only directory, `cd modules/Neatline/asset/neatline`, then `git fetch origin` and `git checkout your-branch-name`.
+- Open the file omeka-neatline-deployment/modules/Neatline/.gitmodules and set `branch = your-branch-name`.
+- Return to omeka-neatline-deployment/modules/Neatline and, if you do not already have a feature branch in this repository, create one to accompany your feature branch in neatline-3. Add and commit the changes to .gitmodules and asset/neatline.
+- Repeat the same step at the root level of omeka-neatline-deployment: edit that directory's .gitmodules file to set `branch = your-neatline-omeka-s-branch-name` and commit the changes to .gitmodules and modules/Neatline.
+- Finally, `git remote add heroku your-heroku-app-git-url` and `git push heroku master` to deploy to your Heroku app.
