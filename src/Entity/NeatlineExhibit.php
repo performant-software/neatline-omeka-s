@@ -161,6 +161,26 @@ class NeatlineExhibit extends AbstractEntity
      */
     protected $accessible_url;
 
+    /**
+     * @Column(type="text", nullable=true)
+     */
+    protected $tile_address;
+
+    /**
+     * @Column(type="text", nullable=true)
+     */
+    protected $image_attribution;
+
+    /**
+     * @Column(type="text", nullable=true)
+     */
+    protected $wms_attribution;
+
+    /**
+     * @Column(type="text", nullable=true)
+     */
+    protected $tile_attribution;
+
 
     public function getId()
     {
@@ -430,5 +450,45 @@ class NeatlineExhibit extends AbstractEntity
     public function getAccessibleUrl()
     {
         return $this->accessible_url;
+    }
+
+    public function setTileAddress($tile_address)
+    {
+        $this->tile_address = $tile_address;
+    }
+
+    public function getTileAddress()
+    {
+        return $this->tile_address;
+    }
+
+    public function setImageAttribution($image_attribution)
+    {
+        $this->image_attribution = $image_attribution;
+    }
+
+    public function getImageAttribution()
+    {
+        return $this->image_attribution;
+    }
+
+    public function setWmsAttribution($wms_attribution)
+    {
+        $this->wms_attribution = $wms_attribution;
+    }
+
+    public function getWmsAttribution()
+    {
+        return $this->wms_attribution;
+    }
+
+    public function setTileAttribution($tile_attribution)
+    {
+        $this->tile_attribution = $tile_attribution;
+    }
+
+    public function getTileAttribution()
+    {
+        return $this->tile_attribution;
     }
 }

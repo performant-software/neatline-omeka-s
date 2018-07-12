@@ -11,6 +11,7 @@ use Zend\EventManager\Event as ZendEvent;
 use Zend\Mvc\MvcEvent;
 use Omeka\Permissions\Acl;
 use Doctrine\DBAL\Types\Type;
+use Composer\Semver\Comparator;
 
 require_once __DIR__.'/vendor/autoload.php';
 
@@ -144,6 +145,19 @@ class Module extends AbstractModule
         $connection = $serviceLocator->get('Omeka\Connection');
         $connection->exec("DROP TABLE neatline_exhibit;");
         $connection->exec("DROP TABLE neatline_record;");
+    }
+
+    public function upgrade($oldVersion, $newVersion, ServiceLocatorInterface $serviceLocator)
+    {
+        if (Comparator::lessThan($oldVersion, '3.0.1')) {
+            $connection = $serviceLocator->get('Omeka\Connection');
+            $connection->exec("ALTER TABLE neatline_exhibit
+                ADD COLUMN tile_address TEXT NULL,
+                ADD COLUMN image_attribution TEXT NULL,
+                ADD COLUMN wms_attribution TEXT NULL,
+                ADD COLUMN tile_attribution TEXT NULL;
+            ");
+        }
     }
 
     /**

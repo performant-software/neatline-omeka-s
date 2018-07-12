@@ -64,6 +64,10 @@ class ExhibitRepresentation extends AbstractEntityRepresentation
             'o:map_max_zoom' => $this->mapMaxZoom(),
             'o:map_restricted_extent' => $this->mapRestrictedExtent(),
             'o:accessible_url' => $this->accessibleUrl(),
+            'o:tile_address' => $this->tileAddress(),
+            'o:image_attribution' => $this->imageAttribution(),
+            'o:wms_attribution' => $this->wmsAttribution(),
+            'o:tile_attribution' => $this->tileAttribution()
         ];
     }
 
@@ -220,5 +224,25 @@ class ExhibitRepresentation extends AbstractEntityRepresentation
     public function accessibleUrl()
     {
     	return $this->resource->getAccessibleUrl();
+    }
+
+    public function tileAddress()
+    {
+        return $this->resource->getTileAddress();
+    }
+
+    public function imageAttribution()
+    {
+        return $this->resource->getImageAttribution();
+    }
+
+    public function wmsAttribution()
+    {
+        return $this->resource->getWmsAttribution();
+    }
+
+    public function tileAttribution()
+    {
+        return $this->resource->getTileAttribution();
     }
 }
