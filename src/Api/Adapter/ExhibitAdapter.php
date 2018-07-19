@@ -147,6 +147,22 @@ class ExhibitAdapter extends AbstractEntityAdapter
         	$entity->setAccessibleUrl($request->getValue('o:accessible_url'));
         }
 
+        if ($this->shouldHydrate($request, 'o:tile_address')) {
+        	$entity->setTileAddress($request->getValue('o:tile_address'));
+        }
+
+        if ($this->shouldHydrate($request, 'o:image_attribution')) {
+        	$entity->setImageAttribution($request->getValue('o:image_attribution'));
+        }
+
+        if ($this->shouldHydrate($request, 'o:wms_attribution')) {
+        	$entity->setWmsAttribution($request->getValue('o:wms_attribution'));
+        }
+
+        if ($this->shouldHydrate($request, 'o:tile_attribution')) {
+        	$entity->setTileAttribution($request->getValue('o:tile_attribution'));
+        }
+
         $this->updateTimestamps($request, $entity);
     }
 
