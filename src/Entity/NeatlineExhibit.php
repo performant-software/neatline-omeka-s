@@ -181,6 +181,10 @@ class NeatlineExhibit extends AbstractEntity
      */
     protected $tile_attribution;
 
+    /**
+     * @Column(type="integer", nullable=false)
+     */
+    protected $exhibit_type;
 
     public function getId()
     {
@@ -490,5 +494,15 @@ class NeatlineExhibit extends AbstractEntity
     public function getTileAttribution()
     {
         return $this->tile_attribution;
+    }
+
+	public function setExhibitType($exhibit_type)
+    {
+        $this->exhibit_type = $exhibit_type;
+    }
+
+    public function getExhibitType()
+    {
+        return $this->$exhibit_type;
     }
 }

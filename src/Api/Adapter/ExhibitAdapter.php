@@ -163,6 +163,10 @@ class ExhibitAdapter extends AbstractEntityAdapter
         	$entity->setTileAttribution($request->getValue('o:tile_attribution'));
         }
 
+		if ($this->shouldHydrate($request, 'o:exhibit_type')) {
+        	$entity->setExhibitType($request->getValue('o:exhibit_type'));
+        }
+
         $this->updateTimestamps($request, $entity);
     }
 

@@ -151,11 +151,20 @@ class Module extends AbstractModule
     {
         if (Comparator::lessThan($oldVersion, '3.0.1')) {
             $connection = $serviceLocator->get('Omeka\Connection');
-            $connection->exec("ALTER TABLE neatline_exhibit
+            $connection->exec("
+				ALTER TABLE neatline_exhibit
                 ADD COLUMN tile_address TEXT NULL,
                 ADD COLUMN image_attribution TEXT NULL,
                 ADD COLUMN wms_attribution TEXT NULL,
                 ADD COLUMN tile_attribution TEXT NULL;
+            ");
+        }
+
+		if (Comparator::lessThan($oldVersion, '3.0.2')) {
+            $connection = $serviceLocator->get('Omeka\Connection');
+            $connection->exec("
+				ALTER TABLE neatline_exhibit
+                ADD COLUMN exhibit_type TINYINT(1) NOT NULL DEFAULT 0;
             ");
         }
     }

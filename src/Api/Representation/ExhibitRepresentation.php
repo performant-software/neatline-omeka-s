@@ -67,7 +67,8 @@ class ExhibitRepresentation extends AbstractEntityRepresentation
             'o:tile_address' => $this->tileAddress(),
             'o:image_attribution' => $this->imageAttribution(),
             'o:wms_attribution' => $this->wmsAttribution(),
-            'o:tile_attribution' => $this->tileAttribution()
+            'o:tile_attribution' => $this->tileAttribution(),
+			'o:exhibit_type' => $this->exhibitType()
         ];
     }
 
@@ -245,4 +246,9 @@ class ExhibitRepresentation extends AbstractEntityRepresentation
     {
         return $this->resource->getTileAttribution();
     }
+
+	public function exhibitType()
+    {
+        return $this->resource->getExhibitType();
+   	}
 }
