@@ -164,7 +164,7 @@ class Module extends AbstractModule
             $connection = $serviceLocator->get('Omeka\Connection');
             $connection->exec("
 				ALTER TABLE neatline_exhibit
-                ADD COLUMN exhibit_type TINYINT(1) NOT NULL DEFAULT 0;
+                ADD COLUMN exhibit_type INT(10) UNSIGNED NOT NULL DEFAULT 0;
             ");
         }
     }
