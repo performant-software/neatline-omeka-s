@@ -503,6 +503,6 @@ class NeatlineExhibit extends AbstractEntity
 
     public function getExhibitType()
     {
-        return $this->$exhibit_type;
+        return $this->exhibit_type;
     }
 }
