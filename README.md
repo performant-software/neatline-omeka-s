@@ -22,16 +22,20 @@ Neatline uses JSON web tokens (JWTs) to handle user authentication between the f
 ### Heroku deployment
 Pending a more streamlined workflow for staging and review app deployment, the following approach with Git and Heroku is recommended. Keep in mind: the repository you want to push to Heroku is Omeka, not either of the Neatline repositories themselves. By following the git submodule process, you'll modify your copy of Omeka such that it will automatically pull down the neatline-omeka-s repository from GitHub into its modules folder (with neatline-omeka-s, in turn, pulling down neatline-3 from GitHub) when it’s deployed into an environment like Heroku that knows how to handle submodules.
 
-To prepare your deployment setup:
-- Make a deployment-only local copy of Omeka S: `git clone https://github.com/omeka/omeka-s.git omeka-neatline-deployment`. Using a separate, Git-managed copy for deployment will help you cleanly manage submodule updates without otherwise touching any of the codebase.
+**NB: anything to be deployed will first have to be pushed to its respective remote on github, since it's from there that heroku will pull code to be deployed. This includes changes to `.gitmodules`, build artifacts, and code.**
+
+
+#### To prepare your deployment setup:
+- Make, or use an existing copy of Omeka S: `git clone https://github.com/omeka/omeka-s.git omeka-neatline-deployment`. Using a separate, Git-managed copy for deployment will help you cleanly manage submodule updates without otherwise touching any of the codebase.
+- If you do clone from the Official Omeka S remote, note that you will by default check out the develop branch, and that there are several configuration files which it is assumed you will be modifying for your own deployment; if you've already got those configuration settings, they should be committed since heroku depends on presence in the git repo to deploy code.
 - Copy the git URL from your Heroku app's Settings pane and add it as a remote called 'heroku' in your new Omeka directory: `cd omeka-neatline-deployment`, then `git remote add heroku your-heroku-app-git-url`.
-- In the same directory, add this repository to the modules directory of your deployment Omeka S as Neatline: `git submodule add https://github.com/performant-software/neatline-omeka-s.git modules/Neatline`.
+- In the same directory, add this repository (the neatline omeka S adapter) to the modules directory of your deployment Omeka S as Neatline: `git submodule add https://github.com/performant-software/neatline-omeka-s.git modules/Neatline`.
 - Initialize the front-end repository's nested submodule: `git submodule update --init --recursive`.
 
-Each time you are ready to deploy:
-- When you want to deploy a feature branch in the front-end repository (https://github.com/performant-software/neatline-3), from the directory you use for front-end development, build the React asset files using `yarn build` and commit and push these to your branch.
-- In your deployment-only directory, `cd modules/Neatline/asset/neatline`, then `git fetch origin` and `git checkout your-branch-name`.
+#### Each time you are ready to deploy:
+- When you want to deploy a feature branch in the front-end repository (https://github.com/performant-software/neatline-3), build the React asset files using `yarn build` from the directory you use for front-end development, and commit and push these to your branch on github.
+- In your deployment-only directory, `cd modules/Neatline/asset/neatline`, then `git fetch origin && git checkout [your-branch-name]`.
 - Open the file omeka-neatline-deployment/modules/Neatline/.gitmodules and set `branch = your-branch-name`.
-- Return to omeka-neatline-deployment/modules/Neatline and, if you do not already have a current feature branch for this repository, create one to accompany your feature branch in neatline-3 (its name does not need to match the name of your neatline-3 branch). Add and commit the changes to .gitmodules and asset/neatline.
-- Repeat the same step at the root level of omeka-neatline-deployment: edit that directory's .gitmodules file to set `branch = your-neatline-omeka-s-branch-name` and commit the changes to .gitmodules and modules/Neatline.
-- Finally, `git push heroku master` to deploy to your Heroku app (`git push -f` may be necessary).
+- Return to `omeka-neatline-deployment/modules/Neatline` and, if you do not already have a current feature branch for this repository, create one to accompany your feature branch in neatline-3 (its name does not need to match the name of your neatline-3 branch). Add and commit the changes to `.gitmodules` and asset/neatline, and push to github.
+- Repeat the same step at the root level of omeka-neatline-deployment: edit that directory's `.gitmodules` file to set `branch = your-neatline-omeka-s-branch-name` and commit the changes to .gitmodules and modules/Neatline and push to github.
+- Finally, `git push [heroku-remote-name] [local-branch:master]` where `heroku-remote-name` is the name you gave to the git remote hosted on heroku, and `local-branch` is the name of the local branch to deploy to heroku. That will deploy to your Heroku app (`git push -f` may be necessary).
