@@ -1,4 +1,4 @@
+
 [submodule "asset/neatline"]
 	path = asset/neatline
-	url = https://github.com/performant-software/neatline-3.git
-	branch = master
+	url = git@github.com:scholarslab/neatline-3.git
