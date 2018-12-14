@@ -10,6 +10,7 @@ use Zend\EventManager\SharedEventManagerInterface;
 use Zend\EventManager\Event as ZendEvent;
 use Zend\Mvc\MvcEvent;
 use Omeka\Permissions\Acl;
+use Omeka\Permissions\Assertion\OwnsEntityAssertion;
 use Doctrine\DBAL\Types\Type;
 use Composer\Semver\Comparator;
 
@@ -41,6 +42,20 @@ class Module extends AbstractModule
             ['Neatline\Entity\NeatlineExhibit',
              'Neatline\Entity\NeatlineRecord'],
             'view-all'
+        );
+        $acl->allow(
+            Acl::ROLE_EDITOR,
+            ['Neatline\Entity\NeatlineExhibit',
+             'Neatline\Entity\NeatlineRecord'],
+            'create'
+        );
+        $acl->allow(
+            null,
+            ['Neatline\Entity\NeatlineExhibit',
+             'Neatline\Entity\NeatlineRecord'],
+            ['delete',
+             'update'],
+            new OwnsEntityAssertion
         );
     }
 
@@ -203,6 +218,11 @@ class Module extends AbstractModule
         );
     }
 
+    /**
+     * Filter private exhibits.
+     *
+     * @param Event $event
+     */
     public function filterExhibits(ZendEvent $event)
     {
         $acl = $this->getServiceLocator()->get('Omeka\Acl');
@@ -210,8 +230,24 @@ class Module extends AbstractModule
             return;
         }
 
+        $adapter = $event->getTarget();
         $qb = $event->getParam('queryBuilder');
+
+        // Users can view exhibits they do not own that are public.
         $expression = $qb->expr()->eq('Neatline\Entity\NeatlineExhibit.public', true);
+
+        $identity = $this->getServiceLocator()
+            ->get('Omeka\AuthenticationService')->getIdentity();
+        if ($identity) {
+            $expression = $qb->expr()->orX(
+                $expression,
+                // Users can view all exhibits they own.
+                $qb->expr()->eq(
+                    "Neatline\Entity\NeatlineExhibit.owner",
+                    $adapter->createNamedParameter($qb, $identity)
+                )
+            );
+        }
         $qb->andWhere($expression);
     }
 
