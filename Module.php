@@ -149,10 +149,10 @@ class Module extends AbstractModule
 
     public function upgrade($oldVersion, $newVersion, ServiceLocatorInterface $serviceLocator)
     {
-        if (Comparator::lessThan($oldVersion, '3.0.1')) {
+        if (Comparator::lessThan($oldVersion, '0.0.1')) {
             $connection = $serviceLocator->get('Omeka\Connection');
             $connection->exec("
-				ALTER TABLE neatline_exhibit
+            ALTER TABLE neatline_exhibit
                 ADD COLUMN tile_address TEXT NULL,
                 ADD COLUMN image_attribution TEXT NULL,
                 ADD COLUMN wms_attribution TEXT NULL,
@@ -160,10 +160,10 @@ class Module extends AbstractModule
             ");
         }
 
-		if (Comparator::lessThan($oldVersion, '3.0.2')) {
+        if (Comparator::lessThan($oldVersion, '0.0.2')) {
             $connection = $serviceLocator->get('Omeka\Connection');
             $connection->exec("
-				ALTER TABLE neatline_exhibit
+            ALTER TABLE neatline_exhibit
                 ADD COLUMN exhibit_type INT(10) UNSIGNED NOT NULL DEFAULT 0;
             ");
         }
