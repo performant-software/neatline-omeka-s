@@ -77,6 +77,10 @@ class Module extends AbstractModule
                map_restricted_extent   TEXT NULL,
                map_min_zoom            SMALLINT UNSIGNED NULL,
                map_max_zoom            SMALLINT UNSIGNED NULL,
+               ADD COLUMN tile_address TEXT NULL,
+               ADD COLUMN image_attribution TEXT NULL,
+               ADD COLUMN wms_attribution TEXT NULL,
+               ADD COLUMN tile_attribution TEXT NULL
 
                PRIMARY KEY             (id)
 
@@ -149,7 +153,7 @@ class Module extends AbstractModule
 
     public function upgrade($oldVersion, $newVersion, ServiceLocatorInterface $serviceLocator)
     {
-        if (Comparator::lessThan($oldVersion, '0.0.1')) {
+        if (Comparator::lessThan($oldVersion, '0.0.2')) {
             $connection = $serviceLocator->get('Omeka\Connection');
             $connection->exec("
             ALTER TABLE neatline_exhibit
@@ -160,7 +164,7 @@ class Module extends AbstractModule
             ");
         }
 
-        if (Comparator::lessThan($oldVersion, '0.0.2')) {
+        if (Comparator::lessThan($oldVersion, '0.0.3')) {
             $connection = $serviceLocator->get('Omeka\Connection');
             $connection->exec("
             ALTER TABLE neatline_exhibit
@@ -175,7 +179,7 @@ class Module extends AbstractModule
      */
     public function getConfigForm(PhpRenderer $renderer)
     {
-        return '<input name="google-maps-api-key">';
+        return '<label name='Google Maps API Key'><input name="google-maps-api-key">';
     }
 
     /**
