@@ -77,6 +77,11 @@ class Module extends AbstractModule
                map_restricted_extent   TEXT NULL,
                map_min_zoom            SMALLINT UNSIGNED NULL,
                map_max_zoom            SMALLINT UNSIGNED NULL,
+               tile_address            TEXT NULL,
+               image_attribution       TEXT NULL,
+               wms_attribution         TEXT NULL,
+               tile_attribution        TEXT NULL,
+               exhibit_type            INT(10) UNSIGNED NOT NULL DEFAULT 0,
 
                PRIMARY KEY             (id)
 
