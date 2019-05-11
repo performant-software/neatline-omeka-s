@@ -9,6 +9,8 @@
 <div id="root"></div>
 <script>
     window.jwt = <?php echo !$this->jwt ? 'null' : '\'' . $this->jwt . '\'' ?>;
+    window.containerFullMode = true;
+    window.containerReturnBaseRoute = '/s/<?php echo $this->site_slug ?>/neatline';
     window.baseRoute = '/s/<?php echo $this->site_slug ?>/neatline/full';
 </script>
 <?php

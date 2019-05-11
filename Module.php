@@ -9,6 +9,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\EventManager\SharedEventManagerInterface;
 use Zend\EventManager\Event as ZendEvent;
 use Zend\Mvc\MvcEvent;
+use Omeka\Api\Request;
 use Omeka\Permissions\Acl;
 use Doctrine\DBAL\Types\Type;
 use Composer\Semver\Comparator;
@@ -143,6 +144,8 @@ class Module extends AbstractModule
             ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
         ";
         $connection->exec($sql);
+
+        addNeatlineToExistingSiteNavigation($serviceLocator);
     }
 
     public function uninstall(ServiceLocatorInterface $serviceLocator)
@@ -150,6 +153,25 @@ class Module extends AbstractModule
         $connection = $serviceLocator->get('Omeka\Connection');
         $connection->exec("DROP TABLE neatline_exhibit;");
         $connection->exec("DROP TABLE neatline_record;");
+
+        // remove Neatline navigation links from each Site
+        $api = $serviceLocator->get('Omeka\ApiManager');
+        $response = $api->search('sites');
+        $sites = $response->getContent();
+        foreach ($sites as $site) {
+            $navigation = $site->navigation();
+            if ($navigation == NULL) {
+                $navigation = [];
+            }
+            $filtered = array_filter($navigation, function($link) {
+                if ($link['type'] === 'neatline') {
+                    return false;
+                }
+                return true;
+            });
+            $api->update('sites', $site->id(), ['o:navigation' => $filtered], [], ['isPartial' => true]);
+        }
+
     }
 
     public function upgrade($oldVersion, $newVersion, ServiceLocatorInterface $serviceLocator)
@@ -172,25 +194,31 @@ class Module extends AbstractModule
                 ADD COLUMN exhibit_type INT(10) UNSIGNED NOT NULL DEFAULT 0;
             ");
         }
+
+        if (Comparator::lessThan($oldVersion, '0.2.0')) {
+            $this->addNeatlineToExistingSiteNavigation($serviceLocator);
+        }
     }
 
-    /**
-     * @param PhpRenderer $renderer
-     * @return string
-     */
-    public function getConfigForm(PhpRenderer $renderer)
-    {
-        return '<input name="google-maps-api-key">';
-    }
+    // config form removed for now, as the SPA does not yet use Google map layers
 
     /**
-     * @param AbstractController $controller
-     * @return bool False if there was an error during handling
+     * param PhpRenderer $renderer
+     * return string
      */
-    public function handleConfigForm(AbstractController $controller)
-    {
-        return true;
-    }
+    // public function getConfigForm(PhpRenderer $renderer)
+    // {
+    //     return '<input name="google-maps-api-key">';
+    // }
+
+    /**
+     * param AbstractController $controller
+     * return bool False if there was an error during handling
+     */
+    // public function handleConfigForm(AbstractController $controller)
+    // {
+    //     return true;
+    // }
 
     public function attachListeners(SharedEventManagerInterface $sharedEventManager)
     {
@@ -205,6 +233,12 @@ class Module extends AbstractModule
             MvcEvent::EVENT_ROUTE,
             [$this, 'processApiRequest'],
             2
+        );
+
+        $sharedEventManager->attach(
+            'Omeka\Api\Adapter\SiteAdapter',
+            'api.hydrate.post',
+            [$this, 'addNeatlineSiteNavigation']
         );
     }
 
@@ -236,6 +270,53 @@ class Module extends AbstractModule
                 $auth = $event->getApplication()->getServiceManager()
                     ->get('Omeka\AuthenticationService');
                 $auth->getAdapter()->setJwt($jwt);
+            }
+        }
+    }
+
+    /**
+     * Adds a site navigation link for Neatline. Intended to be called upon API hydration of a newly created Site so that Sites have Neatline in their navigation by default.
+     */
+    public function addNeatlineSiteNavigation(ZendEvent $event)
+    {
+        if ($event->getParam('request')->getOperation() === Request::CREATE) {
+            $navigation = $event->getParam('entity')->getNavigation();
+            if ($navigation == NULL) {
+                $navigation = [];
+            }
+            $navigation[] = [
+                'type' => 'neatline',
+                'data' => [
+                    'label' => 'Neatline',
+                ],
+                'links' => [],
+            ];
+            $event->getParam('entity')->setNavigation($navigation);
+        }
+    }
+
+    /* Adds a Neatline navigation link to each existing site. Intended to be called when the module is newly installed or upgraded from pre-0.2.0 */
+    public function addNeatlineToExistingSiteNavigation(ServiceLocatorInterface $serviceLocator)
+    {
+        $api = $serviceLocator->get('Omeka\ApiManager');
+        $response = $api->search('sites');
+        $sites = $response->getContent();
+        foreach ($sites as $site) {
+            $navigation = $site->navigation();
+            if ($navigation == NULL) {
+                $navigation = [];
+            }
+            if (!array_reduce($navigation, function($hasNeatline, $link) {
+                return $hasNeatline || $link['type'] === 'neatline';
+            }, false)) {
+                $navigation[] = [
+                    'type' => 'neatline',
+                    'data' => [
+                        'label' => 'Neatline',
+                    ],
+                    'links' => [],
+                ];
+                $api->update('sites', $site->id(), ['o:navigation' => $navigation], [], ['isPartial' => true]);
             }
         }
     }

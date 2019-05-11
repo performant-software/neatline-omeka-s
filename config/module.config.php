@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'is_dev_mode' => false,
+    'is_dev_mode' => true,
     'controllers' => [
         'factories' => [
             'Neatline\Controller\Index' => 'Neatline\Service\Controller\IndexControllerFactory',
@@ -71,6 +71,22 @@ return [
                     ],
                 ],
             ],
+        ],
+    ],
+    'navigation' => [
+        'site' => [
+            [
+                'label' => 'Neatline',
+                'class' => 'neatline',
+                'route' => 'site/neatline',
+                'action' => 'index',
+                'useRouteMatch' => true,
+            ],
+        ],
+    ],
+    'navigation_links' => [
+        'invokables' => [
+            'neatline' => Neatline\Site\Navigation\Link\Neatline::class,
         ],
     ],
 ];
