@@ -33,13 +33,15 @@ class RecordAdapter extends AbstractEntityAdapter
     {
         if (isset($query['exhibit_id'])) {
             $qb->andWhere($qb->expr()->eq(
-                $this->getEntityClass() . '.exhibit',
+                // $this->getEntityClass() . '.exhibit',
+                'omeka_root.exhibit',
                 $this->createNamedParameter($qb, $query['exhibit_id']))
             );
         }
         if (isset($query['slug'])) {
             $qb->andWhere($qb->expr()->eq(
-                $this->getEntityClass() . '.slug',
+                // $this->getEntityClass() . '.slug',
+                'omeka_root.slug',
                 $this->createNamedParameter($qb, $query['slug']))
             );
         }
