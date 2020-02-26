@@ -32,13 +32,15 @@ class ExhibitAdapter extends AbstractEntityAdapter
     {
         if (isset($query['slug'])) {
             $qb->andWhere($qb->expr()->eq(
-                $this->getEntityClass() . '.slug',
+                // $this->getEntityClass() . '.slug',
+                'omeka_root.slug',
                 $this->createNamedParameter($qb, $query['slug']))
             );
         }
         if (isset($query['public'])) {
             $qb->andWhere($qb->expr()->eq(
-                $this->getEntityClass() . '.public',
+                // $this->getEntityClass() . '.public',
+                'omeka_root.public',
                 $this->createNamedParameter($qb, $query['public']))
             );
         }
