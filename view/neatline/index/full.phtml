@@ -10,8 +10,8 @@
 <script>
     window.jwt = <?php echo !$this->jwt ? 'null' : '\'' . $this->jwt . '\'' ?>;
     window.containerFullMode = true;
-    window.containerReturnBaseRoute = '/s/<?php echo $this->site_slug ?>/neatline';
-    window.baseRoute = '/s/<?php echo $this->site_slug ?>/neatline/full';
+    window.containerReturnBaseRoute = '/admin/neatline';
+    window.baseRoute = '/admin/neatline/full';
 </script>
 <?php
 echo $this->inlineScript()

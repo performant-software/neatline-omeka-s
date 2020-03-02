@@ -6,8 +6,8 @@ $this->headLink()->appendStylesheet($this->assetUrl('neatline/build/'. $this->as
 <script>
     window.jwt = <?php echo !$this->jwt ? 'null' : '\'' . $this->jwt . '\'' ?>;
     window.containerFullMode = false;
-    window.containerFullModeBaseRoute = '/s/<?php echo $this->site_slug ?>/neatline/full';
-    window.baseRoute = '/s/<?php echo $this->site_slug ?>/neatline';
+    window.containerFullModeBaseRoute = '/admin/neatline/full';
+    window.baseRoute = '/admin/neatline';
 </script>
 <?php
 echo $this->inlineScript()
