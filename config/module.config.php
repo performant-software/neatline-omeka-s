@@ -13,6 +13,11 @@ return [
             'neatline_records' => 'Neatline\Api\Adapter\RecordAdapter',
         ],
     ],
+    'block_layouts' => [
+        'invokables' => [
+            'neatlineExhibit' => 'Neatline\Site\BlockLayout\NeatlineExhibit',
+        ],
+    ],
     'entity_manager' => [
         'mapping_classes_paths' => [
             OMEKA_PATH . '/modules/Neatline/src/Entity',
