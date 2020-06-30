@@ -18,56 +18,41 @@ class NeatlineExhibit extends AbstractBlockLayout
         return 'Neatline Exhibit'; // @translate
     }
 
-    public function onHydrate(SitePageBlock $block, ErrorStore $errorStore)
-    {} 
-
     public function form(PhpRenderer $view, SiteRepresentation $site,
-    SitePageRepresentation $page = null, SitePageBlockRepresentation $block = null)
-{
-    $forms = $view->api()
-        ->search('collecting_forms', ['site_id' => $site->id()])
-        ->getContent();
-    $formCheckboxes = new Element\MultiCheckbox('o:block[__blockIndex__][o:data][forms]');
-    $valueOptions = [];
-    foreach ($forms as $form) {
-        $valueOptions[$form->id()] = $form->label();
-    }
-    $formCheckboxes->setValueOptions($valueOptions);
-    if ($block) {
-        $formCheckboxes->setValue($block->dataValue('forms'));
-    }
-    return $view->partial('common/block-layout/exhibit-block-form', [
-        'formCheckboxes' => $formCheckboxes,
-    ]);
-}
+    SitePageRepresentation $page = null, SitePageBlockRepresentation $block = null) 
+    {
+        $forms = $view->api()
+            ->search('neatline_exhibits')
+            ->getContent();
+        $formElements = new Element\Select('o:block[__blockIndex__][o:data][exhibits]');
+        $valueOptions = [];
+                foreach ($forms as $form) {
+                    $valueOptions[$form->id()] = $form->title();
+                }
+        $formElements->setEmptyOption('Select exhibit');
+        $formElements->setValueOptions($valueOptions);
 
-public function prepareRender(PhpRenderer $view)
-{
-    $view->collectingPrepareForm();
-    // $view->headLink()->appendStylesheet($view->assetUrl('css/collecting.css', 'Collecting'));
-    // $view->headScript()->appendFile($view->assetUrl('js/collecting-block.js', 'Collecting'));
-}
-
-public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
-{
-    $cForms = [];
-    foreach ($block->dataValue('forms', []) as $formId) {
-        try {
-            $cForms[] = $view->api()->read('collecting_forms', $formId)->getContent();
-        } catch (NotFoundException $e) {
-            // The form was likely deleted since it was added to this block.
-        }
-    }
-    if (1 === count($cForms)) {
-        return $view->partial('common/block-layout/exhibit-block', [
-            'cForm' => $cForms[0],
+        return $view->partial('common/block-layout/neatline-exhibit-form', [
+            'formElements' => $formElements,
         ]);
-    } 
-    // elseif (1 < count($cForms)) {
-    //     return $view->partial('common/block-layout/collecting-block-multiple', [
-    //         'cForms' => $cForms,
-    //     ]);
-    // }
-}
 
+        // return $view->formSelect($formElements);
+
+    }
+    
+    public function prepareRender(PhpRenderer $view)
+    {
+        // $view->headLink()->appendStylesheet($view->assetUrl('neatline/build/'. $view->asset_manifest['main.css'], 'Neatline'));
+        // $view->headScript()->appendFile($view->assetUrl('neatline/build/' . $view->asset_manifest['main.js'], 'Neatline'));
+       
+        // $view->inlineScript()->prependFile($view->assetUrl('neatline/build/' . $view->asset_manifest['main.js'], 'Neatline'));
+    }
+
+    public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
+    {
+
+        return $view->partial('common/block-layout/neatline-exhibit', [
+            'block' => $block,
+        ]);
+    }
 }
