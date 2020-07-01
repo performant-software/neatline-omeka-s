@@ -66,4 +66,16 @@ class IndexController extends AbstractActionController
     {
         return $this->serviceLocator;
     }
+
+    public function browseAction()
+    {
+        $view = new ViewModel;
+        return $view;
+    }
+
+    public function showAction()
+    {
+        $view = new ViewModel;
+        return $view;
+    }
 }
