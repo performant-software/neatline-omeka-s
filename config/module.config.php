@@ -68,10 +68,10 @@ return [
         'routes' => [
             'site' => [
                 'child_routes' => [
-                    'neatline-browse' => [
+                    'neatline' => [
                         'type' => 'Literal',
                         'options' => [
-                            'route' => '/neatline-browse',
+                            'route' => '/neatline',
                             'defaults' => [
                                 '__NAMESPACE__' => 'Neatline\Controller',
                                 'controller' => 'index',
@@ -82,7 +82,7 @@ return [
                     'show' => [
                         'type' => 'Literal',
                         'options' => [
-                            'route' => '/show',
+                            'route' => '/neatline/show',
                             'defaults' => [
                                 '__NAMESPACE__' => 'Neatline\Controller',
                                 'controller' => 'index',

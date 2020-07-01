@@ -1,6 +1,9 @@
-<div class="neatline-show-exhibit">
-<div class="neatline-exhibit-title">
-        <h2>Exhibit Title Placeholder</h2>
-    </div>
-    <div class="neatline-exhibit-map" style="height: 500px; position: relative;"></div>
-</div>
+<?php
+$translate = $this->plugin('translate');
+$escape = $this->plugin('escapeHtml');
+$this->htmlElement('body')->appendAttribute('class', 'item resource show');
+?>
+
+<?php echo $this->pageTitle($translate('Exhibit Title Placeholder'), 2); ?>
+
+<div class="neatline-exhibit-map" style="height: 500px; position: relative; background-color: #ddd;"></div>

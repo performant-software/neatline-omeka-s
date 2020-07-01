@@ -14,7 +14,7 @@ class NeatlineBrowse implements LinkInterface
 
     public function getFormTemplate()
     {
-        return 'common/navigation-link-form/neatline-browse';
+        return 'common/navigation-link-form/neatline';
     }
 
     public function isValid(array $data, ErrorStore $errorStore)
@@ -31,7 +31,7 @@ class NeatlineBrowse implements LinkInterface
     public function toZend(array $data, SiteRepresentation $site)
     {
         return [
-            'route' => 'site/neatline-browse',
+            'route' => 'site/neatline',
             'params' => [
                 'site-slug' => $site->slug(),
             ],
