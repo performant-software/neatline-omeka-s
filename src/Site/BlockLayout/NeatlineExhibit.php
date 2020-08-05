@@ -21,17 +21,17 @@ class NeatlineExhibit extends AbstractBlockLayout
     public function form(PhpRenderer $view, SiteRepresentation $site,
     SitePageRepresentation $page = null, SitePageBlockRepresentation $block = null)
     {
-        $forms = $view->api()
+        $neatlineExhibits = $view->api()
             ->search('neatline_exhibits')
             ->getContent();
-        $formElements = new Element\Select('o:block[__blockIndex__][o:data][exhibits]');
+        $formElements = new Element\Select('o:block[__blockIndex__][o:data][neatline_exhibit]');
         $valueOptions = [];
-                foreach ($forms as $form) {
-                    $valueOptions[$form->id()] = $form->title();
-                }
-        $formSelectedOption = $block ? $block->dataValue('exhibits') : '';
+        foreach ($neatlineExhibits as $neatlineExhibit) {
+            $valueOptions[$neatlineExhibit->id()] = $neatlineExhibit->title();
+        }
+        $formSelectedValue = $block ? $block->dataValue('neatline_exhibit') : '';
         $formElements->setEmptyOption('Select exhibit');
-        $formElements->setValueOptions($valueOptions)->setValue($formSelectedOption);
+        $formElements->setValueOptions($valueOptions)->setValue($formSelectedValue);
 
         return $view->partial('common/block-layout/neatline-exhibit-form', [
             'formElements' => $formElements,
