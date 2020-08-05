@@ -19,7 +19,7 @@ class NeatlineExhibit extends AbstractBlockLayout
     }
 
     public function form(PhpRenderer $view, SiteRepresentation $site,
-    SitePageRepresentation $page = null, SitePageBlockRepresentation $block = null) 
+    SitePageRepresentation $page = null, SitePageBlockRepresentation $block = null)
     {
         $forms = $view->api()
             ->search('neatline_exhibits')
@@ -29,8 +29,9 @@ class NeatlineExhibit extends AbstractBlockLayout
                 foreach ($forms as $form) {
                     $valueOptions[$form->id()] = $form->title();
                 }
+        $formSelectedOption = $block ? $block->dataValue('exhibits') : '';
         $formElements->setEmptyOption('Select exhibit');
-        $formElements->setValueOptions($valueOptions);
+        $formElements->setValueOptions($valueOptions)->setValue($formSelectedOption);
 
         return $view->partial('common/block-layout/neatline-exhibit-form', [
             'formElements' => $formElements,
@@ -39,12 +40,12 @@ class NeatlineExhibit extends AbstractBlockLayout
         // return $view->formSelect($formElements);
 
     }
-    
+
     public function prepareRender(PhpRenderer $view)
     {
         // $view->headLink()->appendStylesheet($view->assetUrl('neatline/build/'. $view->asset_manifest['main.css'], 'Neatline'));
         // $view->headScript()->appendFile($view->assetUrl('neatline/build/' . $view->asset_manifest['main.js'], 'Neatline'));
-       
+
         // $view->inlineScript()->prependFile($view->assetUrl('neatline/build/' . $view->asset_manifest['main.js'], 'Neatline'));
     }
 
