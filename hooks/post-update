@@ -1,10 +1,9 @@
-#!/bin/sh
+#!/bin/bash
 
 # Change directory into the neatline-omeka-s working directory
-cd ~/neatline-omeka-s
+cd /root/neatline-omeka-s
 
-# Change branch to master a pull
-git checkout -b master
+# Pull in the latest changes
 git pull
 
 # Update composer
