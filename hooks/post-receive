@@ -13,4 +13,4 @@ git clone neatline-omeka-s.git neatline-omeka-s
 cd neatline-omeka-s
 
 # Update composer
-composer update
+composer install
