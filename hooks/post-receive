@@ -1,7 +1,16 @@
 #!/bin/bash
 
-# Change directory into the neatline-omeka-s working directory and pull in the latest changes
-cd /root/neatline-omeka-s && git pull
+# Change directory into the root directory
+cd /root
+
+# Delete the current working directory
+rm -rf neatline-omeka-s/
+
+# Clone the repository
+git clone neatline-omeka-s.git neatline-omeka-s
+
+# Change into new working directory
+cd neatline-omeka-s
 
 # Update composer
 composer update
