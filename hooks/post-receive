@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# Change directory into the neatline-omeka-s working directory and pull in the latest changes
+cd /root/neatline-omeka-s && git pull
+
+# Update composer
+composer update
