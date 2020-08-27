@@ -1,0 +1,17 @@
+<?php
+$translate = $this->plugin('translate');
+$escape = $this->plugin('escapeHtml');
+$this->htmlElement('body')->appendAttribute('class', 'item resource browse');
+?>
+<?php echo $this->pageTitle($translate('Neatline Exhibits'), 2); ?>
+
+<!-- should be php foreach -->
+<ul class="resource-list">
+    <li class="item resource">
+        <h4><a href="">Exhibit 1 Placeholder</a></h4>
+    </li>
+    <li class="item resource">
+        <h4><a href="">Exhibit 2 Placeholder</a></h4>
+    </li>
+</ul>
+
