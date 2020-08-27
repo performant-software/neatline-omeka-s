@@ -145,7 +145,7 @@ class Module extends AbstractModule
         ";
         $connection->exec($sql);
 
-        addNeatlineToExistingSiteNavigation($serviceLocator);
+        $this->addNeatlineToExistingSiteNavigation($serviceLocator);
     }
 
     public function uninstall(ServiceLocatorInterface $serviceLocator)
