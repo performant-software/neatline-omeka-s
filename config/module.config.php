@@ -13,6 +13,16 @@ return [
             'neatline_records' => 'Neatline\Api\Adapter\RecordAdapter',
         ],
     ],
+    'block_layouts' => [
+        'invokables' => [
+            'neatlineExhibit' => 'Neatline\Site\BlockLayout\NeatlineExhibit',
+        ],
+    ],
+    'navigation_links' => [
+        'invokables' => [
+            'neatline' => Neatline\Site\Navigation\Link\NeatlineBrowse::class,
+        ],
+    ],
     'entity_manager' => [
         'mapping_classes_paths' => [
             OMEKA_PATH . '/modules/Neatline/src/Entity',
@@ -36,9 +46,53 @@ return [
             'Neatline\NeatlineStatus' => 'Neatline\Service\NeatlineStatusFactory',
         ],
     ],
+    'navigation' => [
+        'AdminModule' => [
+            [
+                'label' => 'Neatline',
+                'route' => 'admin/neatline',
+                'resource' => 'Neatline\Controller\Index',
+                'privilege' => 'browse',
+                'pages' => [
+                    [
+                        'label'=> 'Neatline Editor',
+                        'route' => 'admin/neatline/full',
+                        'resource' => 'Neatline\Controller\Index',
+                        'visible' => false,
+                    ],
+                ],
+            ],
+        ],
+    ],
     'router' => [
         'routes' => [
             'site' => [
+                'child_routes' => [
+                    'neatline' => [
+                        'type' => 'Literal',
+                        'options' => [
+                            'route' => '/neatline',
+                            'defaults' => [
+                                '__NAMESPACE__' => 'Neatline\Controller',
+                                'controller' => 'index',
+                                'action' => 'browse',
+                            ],
+                        ],
+                    ],
+                    'show' => [
+                        'type' => 'Literal',
+                        'options' => [
+                            'route' => '/neatline/show',
+                            'defaults' => [
+                                '__NAMESPACE__' => 'Neatline\Controller',
+                                'controller' => 'index',
+                                'action' => 'show',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            'admin' => [
                 'child_routes' => [
                     'neatline' => [
                         'type' => 'Segment',
@@ -71,22 +125,6 @@ return [
                     ],
                 ],
             ],
-        ],
-    ],
-    'navigation' => [
-        'site' => [
-            [
-                'label' => 'Neatline',
-                'class' => 'neatline',
-                'route' => 'site/neatline',
-                'action' => 'index',
-                'useRouteMatch' => true,
-            ],
-        ],
-    ],
-    'navigation_links' => [
-        'invokables' => [
-            'neatline' => Neatline\Site\Navigation\Link\Neatline::class,
         ],
     ],
 ];

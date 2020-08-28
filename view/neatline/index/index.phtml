@@ -1,13 +1,12 @@
 <?php
-$this->headLink()->appendStylesheet('https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css');
 $this->headLink()->appendStylesheet($this->assetUrl('neatline/build/'. $this->asset_manifest['main.css'], 'Neatline'));
 ?>
 <div id="root"></div>
 <script>
     window.jwt = <?php echo !$this->jwt ? 'null' : '\'' . $this->jwt . '\'' ?>;
     window.containerFullMode = false;
-    window.containerFullModeBaseRoute = '/s/<?php echo $this->site_slug ?>/neatline/full';
-    window.baseRoute = '/s/<?php echo $this->site_slug ?>/neatline';
+    window.containerFullModeBaseRoute = '/admin/neatline/full';
+    window.baseRoute = '/admin/neatline';
 </script>
 <?php
 echo $this->inlineScript()

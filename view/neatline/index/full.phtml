@@ -1,17 +1,24 @@
 <html>
 <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro|Lato:400,400italic,700,700italic" media="screen" rel="stylesheet" type="text/css">
   <link rel="stylesheet" href="<?php echo $this->assetUrl('neatline/build/' . $this->asset_manifest['main.css'], 'Neatline'); ?>" media="screen">
   <link rel="stylesheet" href="/application/asset/css/style.css" media="screen">
   <link rel="stylesheet" href="/application/asset/css/iconfonts.css" media="screen">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
 </head>
+<style>
+  body {
+    margin: 0 1rem;
+  }
+</style>
 <body>
 <div id="root"></div>
 <script>
     window.jwt = <?php echo !$this->jwt ? 'null' : '\'' . $this->jwt . '\'' ?>;
     window.containerFullMode = true;
-    window.containerReturnBaseRoute = '/s/<?php echo $this->site_slug ?>/neatline';
-    window.baseRoute = '/s/<?php echo $this->site_slug ?>/neatline/full';
+    window.containerReturnBaseRoute = '/admin/neatline';
+    window.baseRoute = '/admin/neatline/full';
 </script>
 <?php
 echo $this->inlineScript()

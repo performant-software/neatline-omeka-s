@@ -2,14 +2,14 @@
 namespace Neatline\Site\Navigation\Link;
 
 use Omeka\Api\Representation\SiteRepresentation;
-use Omeka\Stdlib\ErrorStore;
 use Omeka\Site\Navigation\Link\LinkInterface;
+use Omeka\Stdlib\ErrorStore;
 
-class Neatline implements LinkInterface
+class NeatlineBrowse implements LinkInterface
 {
     public function getName()
     {
-        return 'Neatline';
+        return 'Neatline Browse'; // @translate
     }
 
     public function getFormTemplate()
@@ -25,7 +25,7 @@ class Neatline implements LinkInterface
     public function getLabel(array $data, SiteRepresentation $site)
     {
         return isset($data['label']) && '' !== trim($data['label'])
-            ? $data['label'] : null;
+            ? $data['label'] : $this->getName();
     }
 
     public function toZend(array $data, SiteRepresentation $site)
