@@ -1,4 +1,0 @@
-
-[submodule "asset/neatline"]
-	path = asset/neatline
-	url = https://github.com/scholarslab/neatline-spa.git
