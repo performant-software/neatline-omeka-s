@@ -21,7 +21,7 @@ class NeatlineAuthenticationServiceFactory extends AuthenticationServiceFactory
 
         if ($status->isNeatlineApiRequest($serviceLocator)) {
             $entityManager = $serviceLocator->get('Omeka\EntityManager');
-            $userRepository = $entityManager->getRepository('Omeka\Entity\User');
+            $userRepository = $entityManager->getRepository('Neatline\Entity\User');
             $storage = new DoctrineWrapper(new NonPersistent, $userRepository);
             $adapter = new JwtAdapter($userRepository, $serviceLocator);
             $authService = new AuthenticationService($storage, $adapter);

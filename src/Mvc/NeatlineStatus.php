@@ -24,6 +24,6 @@ class NeatlineStatus
         if (null === $routeMatch) {
             return false;
         }
-        return in_array($routeMatch->getParam('resource'), ['neatline_exhibits', 'neatline_records']);
+        return in_array($routeMatch->getParam('resource'), ['neatline_exhibits', 'neatline_records', 'logout']);
     }
 }
