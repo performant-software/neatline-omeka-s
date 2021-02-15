@@ -12,14 +12,14 @@ class NeatlineExhibit extends \Neatline\Entity\NeatlineExhibit implements \Doctr
      *      three parameters, being respectively the proxy object to be initialized, the method that triggered the
      *      initialization process and an array of ordered parameters that were passed to that method.
      *
-     * @see \Doctrine\Common\Persistence\Proxy::__setInitializer
+     * @see \Doctrine\Common\Proxy\Proxy::__setInitializer
      */
     public $__initializer__;
 
     /**
      * @var \Closure the callback responsible of loading properties that need to be copied in the cloned object
      *
-     * @see \Doctrine\Common\Persistence\Proxy::__setCloner
+     * @see \Doctrine\Common\Proxy\Proxy::__setCloner
      */
     public $__cloner__;
 
@@ -34,7 +34,7 @@ class NeatlineExhibit extends \Neatline\Entity\NeatlineExhibit implements \Doctr
      * @var array properties to be lazy loaded, with keys being the property
      *            names and values being their default values
      *
-     * @see \Doctrine\Common\Persistence\Proxy::__getLazyProperties
+     * @see \Doctrine\Common\Proxy\Proxy::__getLazyProperties
      */
     public static $lazyPropertiesDefaults = [];
 
@@ -64,10 +64,10 @@ class NeatlineExhibit extends \Neatline\Entity\NeatlineExhibit implements \Doctr
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'records', 'owner', 'added', 'modified', 'published', 'item_query', 'spatial_layers', 'spatial_layer', 'image_layer', 'image_height', 'image_width', 'zoom_levels', 'wms_address', 'wms_layers', 'widgets', 'title', 'slug', 'narrative', 'spatial_querying', 'public', 'styles', 'map_focus', 'map_zoom', 'map_min_zoom', 'map_max_zoom', 'map_restricted_extent', 'accessible_url'];
+            return ['__isInitialized__', 'id', 'records', 'owner', 'added', 'modified', 'published', 'item_query', 'spatial_layers', 'spatial_layer', 'image_layer', 'image_height', 'image_width', 'zoom_levels', 'wms_address', 'wms_layers', 'widgets', 'title', 'slug', 'narrative', 'spatial_querying', 'public', 'styles', 'map_focus', 'map_zoom', 'map_min_zoom', 'map_max_zoom', 'map_restricted_extent', 'accessible_url', 'tile_address', 'image_attribution', 'wms_attribution', 'tile_attribution', 'exhibit_type'];
         }
 
-        return ['__isInitialized__', 'id', 'records', 'owner', 'added', 'modified', 'published', 'item_query', 'spatial_layers', 'spatial_layer', 'image_layer', 'image_height', 'image_width', 'zoom_levels', 'wms_address', 'wms_layers', 'widgets', 'title', 'slug', 'narrative', 'spatial_querying', 'public', 'styles', 'map_focus', 'map_zoom', 'map_min_zoom', 'map_max_zoom', 'map_restricted_extent', 'accessible_url'];
+        return ['__isInitialized__', 'id', 'records', 'owner', 'added', 'modified', 'published', 'item_query', 'spatial_layers', 'spatial_layer', 'image_layer', 'image_height', 'image_width', 'zoom_levels', 'wms_address', 'wms_layers', 'widgets', 'title', 'slug', 'narrative', 'spatial_querying', 'public', 'styles', 'map_focus', 'map_zoom', 'map_min_zoom', 'map_max_zoom', 'map_restricted_extent', 'accessible_url', 'tile_address', 'image_attribution', 'wms_attribution', 'tile_attribution', 'exhibit_type'];
     }
 
     /**
@@ -202,7 +202,7 @@ class NeatlineExhibit extends \Neatline\Entity\NeatlineExhibit implements \Doctr
     /**
      * {@inheritDoc}
      */
-    public function setOwner(\Omeka\Entity\User $owner = NULL)
+    public function setOwner(\Neatline\Entity\User $owner = NULL)
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setOwner', [$owner]);
@@ -598,12 +598,12 @@ class NeatlineExhibit extends \Neatline\Entity\NeatlineExhibit implements \Doctr
     /**
      * {@inheritDoc}
      */
-    public function setPublic($public)
+    public function setPublic($isPublic)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setPublic', [$public]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setPublic', [$isPublic]);
 
-        return parent::setPublic($public);
+        return parent::setPublic($isPublic);
     }
 
     /**
@@ -769,6 +769,116 @@ class NeatlineExhibit extends \Neatline\Entity\NeatlineExhibit implements \Doctr
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getAccessibleUrl', []);
 
         return parent::getAccessibleUrl();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setTileAddress($tile_address)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setTileAddress', [$tile_address]);
+
+        return parent::setTileAddress($tile_address);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getTileAddress()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTileAddress', []);
+
+        return parent::getTileAddress();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setImageAttribution($image_attribution)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setImageAttribution', [$image_attribution]);
+
+        return parent::setImageAttribution($image_attribution);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getImageAttribution()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getImageAttribution', []);
+
+        return parent::getImageAttribution();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setWmsAttribution($wms_attribution)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setWmsAttribution', [$wms_attribution]);
+
+        return parent::setWmsAttribution($wms_attribution);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getWmsAttribution()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getWmsAttribution', []);
+
+        return parent::getWmsAttribution();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setTileAttribution($tile_attribution)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setTileAttribution', [$tile_attribution]);
+
+        return parent::setTileAttribution($tile_attribution);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getTileAttribution()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTileAttribution', []);
+
+        return parent::getTileAttribution();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setExhibitType($exhibit_type)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setExhibitType', [$exhibit_type]);
+
+        return parent::setExhibitType($exhibit_type);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getExhibitType()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getExhibitType', []);
+
+        return parent::getExhibitType();
     }
 
     /**
