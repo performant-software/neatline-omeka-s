@@ -37,7 +37,8 @@ class Module extends AbstractModule
              'Neatline\Controller\Login',
              'Neatline\Api\Adapter\ExhibitAdapter',
              'Neatline\Api\Adapter\RecordAdapter',
-             'Neatline\Api\Adapter\LoginAdapter']
+             'Neatline\Api\Adapter\LoginAdapter',
+             'Neatline\Api\Adapter\LogoutAdapter']
         );
         $acl->allow(
             Acl::ROLE_GLOBAL_ADMIN,
@@ -287,7 +288,6 @@ class Module extends AbstractModule
     public function afterLogout(ZendEvent $event)
     {
         $userId = $event->getTarget();
-        error_log($userId);
         $adapter = $this->getServiceLocator()->get('Omeka\ApiAdapterManager')->get('login');
         $user = $adapter->findEntity($userId);
 
