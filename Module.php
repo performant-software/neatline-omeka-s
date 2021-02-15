@@ -323,8 +323,7 @@ class Module extends AbstractModule
                 if (!$params->get('key_identity')) $params->set('key_identity', '');
                 if (!$params->get('key_credential')) $params->set('key_credential', '');
 
-                $auth = $event->getApplication()->getServiceManager()
-                    ->get('Omeka\AuthenticationService');
+                $auth = $event->getApplication()->getServiceManager()->get('Omeka\AuthenticationService');
                 $auth->getAdapter()->setJwt($jwt);
             }
         }

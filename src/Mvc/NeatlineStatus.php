@@ -25,10 +25,6 @@ class NeatlineStatus
             return false;
         }
 
-        if ($request->getMethod() === 'GET') {
-            return false;
-        }
-
         return in_array($routeMatch->getParam('resource'), ['neatline_exhibits', 'neatline_records', 'logout']);
     }
 }
