@@ -8,8 +8,8 @@ use Omeka\Entity\SitePageBlock;
 use Omeka\Api\Exception\NotFoundException;
 use Omeka\Site\BlockLayout\AbstractBlockLayout;
 use Omeka\Stdlib\ErrorStore;
-use Zend\Form\Element;
-use Zend\View\Renderer\PhpRenderer;
+use Laminas\Form\Element;
+use Laminas\View\Renderer\PhpRenderer;
 
 class NeatlineExhibit extends AbstractBlockLayout
 {

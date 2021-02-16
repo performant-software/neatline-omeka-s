@@ -2,7 +2,7 @@
 namespace Neatline\Service;
 
 use Neatline\Mvc\NeatlineStatus;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 
 /**

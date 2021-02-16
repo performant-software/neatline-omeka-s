@@ -1,7 +1,7 @@
 <?php
 namespace Neatline\Mvc;
 
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 class NeatlineStatus
 {

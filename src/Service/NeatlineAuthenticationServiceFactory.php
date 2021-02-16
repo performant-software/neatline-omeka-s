@@ -3,9 +3,9 @@ namespace Neatline\Service;
 
 use Omeka\Service\AuthenticationServiceFactory;
 use Interop\Container\ContainerInterface;
-use Zend\Authentication\AuthenticationService;
+use Laminas\Authentication\AuthenticationService;
 use Omeka\Authentication\Storage\DoctrineWrapper;
-use Zend\Authentication\Storage\NonPersistent;
+use Laminas\Authentication\Storage\NonPersistent;
 use Neatline\Authentication\Adapter\JwtAdapter;
 
 class NeatlineAuthenticationServiceFactory extends AuthenticationServiceFactory

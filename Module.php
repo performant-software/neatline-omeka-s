@@ -3,12 +3,12 @@
 namespace Neatline;
 
 use Omeka\Module\AbstractModule;
-use Zend\View\Renderer\PhpRenderer;
-use Zend\Mvc\Controller\AbstractController;
-use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\EventManager\SharedEventManagerInterface;
-use Zend\EventManager\Event as ZendEvent;
-use Zend\Mvc\MvcEvent;
+use Laminas\View\Renderer\PhpRenderer;
+use Laminas\Mvc\Controller\AbstractController;
+use Laminas\ServiceManager\ServiceLocatorInterface;
+use Laminas\EventManager\SharedEventManagerInterface;
+use Laminas\EventManager\Event as ZendEvent;
+use Laminas\Mvc\MvcEvent;
 use Omeka\Api\Request;
 use Omeka\Permissions\Acl;
 use Doctrine\DBAL\Types\Type;

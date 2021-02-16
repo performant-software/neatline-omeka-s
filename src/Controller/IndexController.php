@@ -2,8 +2,8 @@
 
 namespace Neatline\Controller;
 
-use Zend\View\Model\ViewModel;
-use Zend\Mvc\Controller\AbstractActionController;
+use Laminas\View\Model\ViewModel;
+use Laminas\Mvc\Controller\AbstractActionController;
 use Firebase\JWT\JWT;
 
 class IndexController extends AbstractActionController

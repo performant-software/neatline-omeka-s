@@ -3,7 +3,7 @@ namespace Neatline\Service\Form;
 
 use Neatline\Form\ExhibitForm;
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 
 class ExhibitFormFactory implements FactoryInterface
 {
