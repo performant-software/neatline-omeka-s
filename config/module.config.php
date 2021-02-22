@@ -5,12 +5,15 @@ return [
     'controllers' => [
         'factories' => [
             'Neatline\Controller\Index' => 'Neatline\Service\Controller\IndexControllerFactory',
-        ],
+            'Neatline\Controller\Login' => 'Neatline\Service\Controller\LoginControllerFactory'
+        ]
     ],
     'api_adapters' => [
         'invokables' => [
             'neatline_exhibits' => 'Neatline\Api\Adapter\ExhibitAdapter',
             'neatline_records' => 'Neatline\Api\Adapter\RecordAdapter',
+            'login' => 'Neatline\Api\Adapter\LoginAdapter',
+            'logout' => 'Neatline\Api\Adapter\LogoutAdapter'
         ],
     ],
     'block_layouts' => [
@@ -125,6 +128,28 @@ return [
                     ],
                 ],
             ],
+            'login' => [
+                'type' => \Zend\Router\Http\Regex::class,
+                'options' => [
+                    'regex' => '/login(/.*)?',
+                    'spec' => '/login',
+                    'defaults' => [
+                        'controller' => 'Neatline\Controller\Login',
+                        'action' => 'login',
+                    ],
+                ],
+            ],
+            'logout' => [
+                'type' => \Zend\Router\Http\Regex::class,
+                'options' => [
+                    'regex' => '/logout(/.*)?',
+                    'spec' => '/logout',
+                    'defaults' => [
+                        'controller' => 'Neatline\Controller\Login',
+                        'action' => 'logout',
+                    ],
+                ],
+            ]
         ],
     ],
 ];

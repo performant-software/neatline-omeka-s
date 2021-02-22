@@ -3,7 +3,7 @@ namespace Neatline\Entity;
 
 use DateTime;
 use Omeka\Entity\AbstractEntity;
-use Omeka\Entity\User;
+use Neatline\Entity\User;
 use Neatline\Entity\NeatlineRecord;
 
 /**
@@ -32,7 +32,7 @@ class NeatlineExhibit extends AbstractEntity
     protected $records;
 
     /**
-     * @ManyToOne(targetEntity="Omeka\Entity\User", inversedBy="neatline_exhibits")
+     * @ManyToOne(targetEntity="Neatline\Entity\User", inversedBy="neatline_exhibits")
      */
     protected $owner;
 

@@ -8,6 +8,7 @@ use Omeka\Api\Request;
 use Omeka\Entity\EntityInterface;
 use Omeka\Stdlib\ErrorStore;
 use Omeka\Api\Adapter\SiteSlugTrait;
+use Omeka\Stdlib\Message;
 
 class ExhibitAdapter extends AbstractEntityAdapter
 {
