@@ -59,3 +59,12 @@ ln -s /path/to/neatline-omeka-s /path/to/omeka-s/modules/Neatline
 
 #### Front end
 See documentation in [neatline-3](https://github.com/performant-software/neatline-3) repo for getting the Neatline front end up and running.
+
+#### Packaging
+To package the module as a zip file, first see front-end instructions for deploying the SPA. Next, from the `/path/to/neatline-omeka-s` directory, run:
+
+```
+zip -r Neatline.zip .
+```
+
+Follow the Omeka-S instructions for [Installing a Module](https://omeka.org/s/docs/user-manual/modules/#installing-modules).

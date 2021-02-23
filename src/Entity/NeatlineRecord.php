@@ -3,7 +3,7 @@ namespace Neatline\Entity;
 
 use DateTime;
 use Omeka\Entity\AbstractEntity;
-use Omeka\Entity\User;
+use Neatline\Entity\User;
 use Neatline\Entity\NeatlineExhibit;
 use Neatline\PHP\Types\Geometry\GeometryCollection;
 
@@ -41,7 +41,7 @@ class NeatlineRecord extends AbstractEntity
     protected $exhibit;
 
     /**
-     * @ManyToOne(targetEntity="Omeka\Entity\User", inversedBy="neatline_exhibits")
+     * @ManyToOne(targetEntity="Neatline\Entity\User", inversedBy="neatline_exhibits")
      */
     protected $owner;
 

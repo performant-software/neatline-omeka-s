@@ -2,13 +2,12 @@
 
 namespace Neatline\Controller;
 
+use Neatline\Authentication\JwtUtils;
 use Zend\View\Model\ViewModel;
 use Zend\Mvc\Controller\AbstractActionController;
-use Firebase\JWT\JWT;
 
 class IndexController extends AbstractActionController
 {
-
     protected $serviceLocator;
 
     protected function neatlineIndex($full = false)
@@ -23,24 +22,14 @@ class IndexController extends AbstractActionController
 
         // encode the current user's ID in a JWT to be returned with API requests
         $auth = $this->getServiceLocator()->get('Omeka\AuthenticationService');
+        $entityManager = $this->getServiceLocator()->get('Omeka\EntityManager');
+
         if ($auth->hasIdentity()) {
-            $user_id = $auth->getIdentity()->getId();
-            $token = array(
-                // 'iss' => root url?,
-                // 'aud' => view url?,
-                // 'iat' => now,
-                // 'nbf' => ?,
-                // user ip?,
-                'user_id' => $user_id
-            );
-            $globalSettings = $this->getServiceLocator()->get('Omeka\Settings');
-            $key = $globalSettings->get('neatline_jwt_secret');
-            if (!$key) {
-                $key = getenv('NEATLINE_JWT_SECRET');
-                if (!$key) $key = 'default_neatline_secret';
-                $globalSettings->set('neatline_jwt_secret', $key);
-            }
-            $view->jwt = JWT::encode($token, $key);
+            $userId = $auth->getIdentity()->getId();
+            $repository = $entityManager->getRepository('Neatline\Entity\User');
+
+            $user = $repository->find($userId);
+            $view->jwt = JwtUtils::encode($this->getServiceLocator(), $user);
         }
 
         return $view;
