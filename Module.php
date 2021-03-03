@@ -46,6 +46,13 @@ class Module extends AbstractModule
              'Neatline\Entity\NeatlineRecord'],
             'view-all'
         );
+
+        $acl->allow(
+            null,
+            ['Neatline\Entity\NeatlineExhibit',
+             'Neatline\Entity\NeatlineRecord'],
+            'read'
+        );
     }
 
     public function install(ServiceLocatorInterface $serviceLocator)
