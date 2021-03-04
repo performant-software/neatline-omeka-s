@@ -4,7 +4,9 @@
 Documentation for this repository is broken down into:
 
 - [Development](docs/development.md)
-  * Local development setup
+    * Local development setup
 - [Staging](docs/staging.md)
-  * Staging server setup
-  * Deployment process
+    * Staging server setup
+    * Deployment process
+ - [Production](docs/production.md)
+    * Release
