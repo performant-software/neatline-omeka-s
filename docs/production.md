@@ -17,3 +17,5 @@ You will be prompted to enter your tag name (created in step 1) and a temporary 
 #### Attach plugin to release
 
 Back in GitHub, attach the generated `Neatline.zip` to the release as a binary and publish the release.
+
+More information on the release process and registering and addon can be found in the Omeka-s [documentation](https://omeka.org/s/docs/developer/register_an_addon/).
