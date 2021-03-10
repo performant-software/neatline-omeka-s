@@ -31,7 +31,15 @@ if ($activePage):
     <?php echo $this->content; ?>
 </div>
 <script>
-  window.baseRoute = '/s';
+    let baseUrl = <?php echo '\'' . $_SERVER['REQUEST_URI'] . '\'' ?>;
+    baseUrl = baseUrl.replace(/(.+)\/s\/(.+)?/gi, '$1');
+
+    console.log(baseUrl);
+    if (baseUrl.startsWith('/s')) {
+      baseUrl = '';
+    }
+
+    window.baseUrl = baseUrl;
 </script>
 <?php
 echo $this->inlineScript()->prependFile($this->assetUrl('neatline/build/' . $asset_manifest['main.js'], 'Neatline'));
