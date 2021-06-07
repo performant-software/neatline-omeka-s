@@ -3,10 +3,20 @@ $this->headLink()->appendStylesheet($this->assetUrl('neatline/build/'. $this->as
 ?>
 <div id="root"></div>
 <script>
-    window.jwt = <?php echo !$this->jwt ? 'null' : '\'' . $this->jwt . '\'' ?>;
+    const jwt = <?php echo !$this->jwt ? 'null' : '\'' . $this->jwt . '\'' ?>;
+    sessionStorage.setItem('token', jwt);
+
+    let baseUrl = <?php echo '\'' . $_SERVER['REQUEST_URI'] . '\'' ?>;
+    baseUrl = baseUrl.replace(/(.+)\/admin\/neatline(\/.+)?/gi, '$1');
+
+    if (baseUrl.startsWith('/admin')) {
+      baseUrl = '';
+    }
+
     window.containerFullMode = false;
-    window.containerFullModeBaseRoute = '/admin/neatline/full';
-    window.baseRoute = '/admin/neatline';
+    window.containerFullModeBaseRoute = `${baseUrl}/admin/neatline/full`;
+    window.baseRoute = `${baseUrl}/admin/neatline`;
+    window.baseUrl = baseUrl;
 </script>
 <?php
 echo $this->inlineScript()

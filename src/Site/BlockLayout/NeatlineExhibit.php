@@ -41,19 +41,11 @@ class NeatlineExhibit extends AbstractBlockLayout
 
     }
 
-    public function prepareRender(PhpRenderer $view)
-    {
-        // $view->headLink()->appendStylesheet($view->assetUrl('neatline/build/'. $view->asset_manifest['main.css'], 'Neatline'));
-        // $view->headScript()->appendFile($view->assetUrl('neatline/build/' . $view->asset_manifest['main.js'], 'Neatline'));
-
-        // $view->inlineScript()->prependFile($view->assetUrl('neatline/build/' . $view->asset_manifest['main.js'], 'Neatline'));
-    }
-
     public function render(PhpRenderer $view, SitePageBlockRepresentation $block)
     {
-
         return $view->partial('common/block-layout/neatline-exhibit', [
-            'block' => $block,
+          'block' => $block,
+          'exhibit_id' => $block->dataValue('neatline_exhibit')
         ]);
     }
 }

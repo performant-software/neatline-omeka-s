@@ -34,14 +34,24 @@ class Module extends AbstractModule
         $acl->allow(
             null,
             ['Neatline\Controller\Index',
+             'Neatline\Controller\Login',
              'Neatline\Api\Adapter\ExhibitAdapter',
-             'Neatline\Api\Adapter\RecordAdapter']
+             'Neatline\Api\Adapter\RecordAdapter',
+             'Neatline\Api\Adapter\LoginAdapter',
+             'Neatline\Api\Adapter\LogoutAdapter']
         );
         $acl->allow(
             Acl::ROLE_GLOBAL_ADMIN,
             ['Neatline\Entity\NeatlineExhibit',
              'Neatline\Entity\NeatlineRecord'],
             'view-all'
+        );
+
+        $acl->allow(
+            null,
+            ['Neatline\Entity\NeatlineExhibit',
+             'Neatline\Entity\NeatlineRecord'],
+            'read'
         );
     }
 
@@ -142,6 +152,8 @@ class Module extends AbstractModule
                FULLTEXT INDEX          (widgets)
 
             ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+            ALTER TABLE user ADD COLUMN token VARCHAR(100) NULL;
         ";
         $connection->exec($sql);
 
@@ -153,6 +165,7 @@ class Module extends AbstractModule
         $connection = $serviceLocator->get('Omeka\Connection');
         $connection->exec("DROP TABLE neatline_exhibit;");
         $connection->exec("DROP TABLE neatline_record;");
+        $connection->exec("ALTER TABLE user DROP COLUMN token;");
 
         // remove Neatline navigation links from each Site
         $api = $serviceLocator->get('Omeka\ApiManager');
@@ -195,6 +208,11 @@ class Module extends AbstractModule
             ");
         }
 
+        if (Comparator::lessThan($oldVersion, '0.4.0')) {
+            $connection = $serviceLocator->get('Omeka\Connection');
+            $connection->exec("ALTER TABLE user ADD COLUMN token VARCHAR(100) NULL;") ;
+        }
+
         // if (Comparator::lessThan($oldVersion, '0.2.0')) {
         //     $this->addNeatlineToExistingSiteNavigation($serviceLocator);
         // }
@@ -235,12 +253,56 @@ class Module extends AbstractModule
             2
         );
 
+        $sharedEventManager->attach(
+          'Neatline\Controller\LoginController',
+          'user.login',
+          [$this, 'afterLogin']
+        );
+
+        $sharedEventManager->attach(
+          'Neatline\Controller\LoginController',
+          'user.logout',
+          [$this, 'afterLogout']
+        );
+
         // $sharedEventManager->attach(
         //     'Omeka\Api\Adapter\SiteAdapter',
         //     'api.hydrate.post'
         //     // ,
         //     // [$this, 'addNeatlineSiteNavigation']
         // );
+    }
+
+    /**
+     * Creates a token for the user after login.
+     */
+    public function afterLogin(ZendEvent $event)
+    {
+        $userId = $event->getTarget()->getId();
+        $adapter = $this->getServiceLocator()->get('Omeka\ApiAdapterManager')->get('login');
+        $user = $adapter->findEntity($userId);
+
+        if ($user) {
+            $user->createToken();
+            $adapter->getEntityManager()->persist($user);
+            $adapter->getEntityManager()->flush();
+        }
+    }
+
+    /**
+     * Destroys the token for the user after logout.
+     */
+    public function afterLogout(ZendEvent $event)
+    {
+        $userId = $event->getTarget();
+        $adapter = $this->getServiceLocator()->get('Omeka\ApiAdapterManager')->get('login');
+        $user = $adapter->findEntity($userId);
+
+        if ($user) {
+            $user->deleteToken();
+            $adapter->getEntityManager()->persist($user);
+            $adapter->getEntityManager()->flush();
+        }
     }
 
     public function filterExhibits(ZendEvent $event)
@@ -251,7 +313,7 @@ class Module extends AbstractModule
         }
 
         $qb = $event->getParam('queryBuilder');
-        $expression = $qb->expr()->eq('Neatline\Entity\NeatlineExhibit.public', true);
+        $expression = $qb->expr()->eq('omeka_root.public', true);
         $qb->andWhere($expression);
     }
 
@@ -268,8 +330,7 @@ class Module extends AbstractModule
                 if (!$params->get('key_identity')) $params->set('key_identity', '');
                 if (!$params->get('key_credential')) $params->set('key_credential', '');
 
-                $auth = $event->getApplication()->getServiceManager()
-                    ->get('Omeka\AuthenticationService');
+                $auth = $event->getApplication()->getServiceManager()->get('Omeka\AuthenticationService');
                 $auth->getAdapter()->setJwt($jwt);
             }
         }

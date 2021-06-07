@@ -3,9 +3,9 @@ namespace Neatline\Authentication\Adapter;
 
 use Doctrine\ORM\EntityRepository;
 use Interop\Container\ContainerInterface;
+use Neatline\Authentication\JwtUtils;
 use Laminas\Authentication\Adapter\AbstractAdapter;
 use Laminas\Authentication\Result;
-use Firebase\JWT\JWT;
 
 /**
  * Auth adapter for JWT credentials.
@@ -23,6 +23,7 @@ class JwtAdapter extends AbstractAdapter
     protected $serviceLocator;
 
     protected $user_id;
+    protected $token;
 
     /**
      * Create the adapter.
@@ -42,13 +43,21 @@ class JwtAdapter extends AbstractAdapter
     public function authenticate()
     {
         $user_id = $this->getUserId();
+        $token = $this->getToken();
+
         if (!$user_id) {
             return new Result(Result::FAILURE_IDENTITY_NOT_FOUND, null,
                 ['User not found.']);
         }
+
+        if (!$token) {
+            return new Result(Result::FAILURE_IDENTITY_NOT_FOUND, null,
+                ['Invalid token.']);
+        }
+
         $user = $this->repository->find($user_id);
 
-        if (!$user || !$user->isActive()) {
+        if (!$user || !$user->isActive() || !$user->getToken() == $token) {
             return new Result(Result::FAILURE_IDENTITY_NOT_FOUND, null,
                 ['User not found.']);
         }
@@ -105,6 +114,14 @@ class JwtAdapter extends AbstractAdapter
     }
 
     /**
+     * Sets the token.
+     */
+    public function setToken($token)
+    {
+        $this->token = $token;
+    }
+
+    /**
      * Get the user ID.
      */
     public function getUserId()
@@ -113,13 +130,21 @@ class JwtAdapter extends AbstractAdapter
     }
 
     /**
+     * Returns the token.
+     */
+    public function getToken()
+    {
+        return $this->token;
+    }
+
+    /**
      * The JWT to be decoded for user identification.
      */
     public function setJwt($jwt)
     {
-        $globalSettings = $this->getServiceLocator()->get('Omeka\Settings');
-        $key = $globalSettings->get('neatline_jwt_secret');
-        $decoded = JWT::decode($jwt, $key, array('HS256'));
+        $decoded = JwtUtils::decode($this->getServiceLocator(), $jwt);
+
         $this->setUserId($decoded->user_id);
+        $this->setToken($decoded->token);
     }
 }
