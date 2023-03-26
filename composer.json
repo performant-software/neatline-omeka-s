@@ -2,7 +2,7 @@
     "name": "neatline/neatline-omeka-s",
     "require": {
         "creof/doctrine2-spatial": "^1.2",
-        "firebase/php-jwt": "^5.0"
+        "firebase/php-jwt": "^6.0"
     },
     "replace": {
         "doctrine/orm": "*"
