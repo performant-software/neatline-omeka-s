@@ -23,7 +23,7 @@ mkdir tmp
 cd tmp
 
 # Clone the neatline-omeka-s directory and install dependencies
-git clone -b $tagName https://github.com/scholarslab/neatline-omeka-s.git neatline-omeka-s
+git clone -b $tagName https://github.com/performant-software/neatline-omeka-s.git neatline-omeka-s
 
 cd neatline-omeka-s
 composer install
@@ -31,7 +31,7 @@ composer install
 cd ..
 
 # Clone the neatline-spa directory, install dependencies, and create production build
-git clone -b $tagName https://github.com/scholarslab/neatline-spa.git neatline-spa
+git clone -b $tagName https://github.com/performant-software/neatline-omeka-s.git neatline-spa
 
 cd neatline-spa
 

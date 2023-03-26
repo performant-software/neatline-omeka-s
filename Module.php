@@ -358,28 +358,28 @@ class Module extends AbstractModule
     // }
 
     /* Adds a Neatline navigation link to each existing site. Intended to be called when the module is newly installed or upgraded from pre-0.2.0 */
-    // public function addNeatlineToExistingSiteNavigation(ServiceLocatorInterface $serviceLocator)
-    // {
-    //     $api = $serviceLocator->get('Omeka\ApiManager');
-    //     $response = $api->search('sites');
-    //     $sites = $response->getContent();
-    //     foreach ($sites as $site) {
-    //         $navigation = $site->navigation();
-    //         if ($navigation == NULL) {
-    //             $navigation = [];
-    //         }
-    //         if (!array_reduce($navigation, function($hasNeatline, $link) {
-    //             return $hasNeatline || $link['type'] === 'neatline';
-    //         }, false)) {
-    //             $navigation[] = [
-    //                 'type' => 'neatline',
-    //                 'data' => [
-    //                     'label' => 'Neatline',
-    //                 ],
-    //                 'links' => [],
-    //             ];
-    //             $api->update('sites', $site->id(), ['o:navigation' => $navigation], [], ['isPartial' => true]);
-    //         }
-    //     }
-    // }
+    public function addNeatlineToExistingSiteNavigation(ServiceLocatorInterface $serviceLocator)
+    {
+        $api = $serviceLocator->get('Omeka\ApiManager');
+        $response = $api->search('sites');
+        $sites = $response->getContent();
+        foreach ($sites as $site) {
+            $navigation = $site->navigation();
+            if ($navigation == NULL) {
+                $navigation = [];
+            }
+            if (!array_reduce($navigation, function($hasNeatline, $link) {
+                return $hasNeatline || $link['type'] === 'neatline';
+            }, false)) {
+                $navigation[] = [
+                    'type' => 'neatline',
+                    'data' => [
+                        'label' => 'Neatline',
+                    ],
+                    'links' => [],
+                ];
+                $api->update('sites', $site->id(), ['o:navigation' => $navigation], [], ['isPartial' => true]);
+            }
+        }
+    }
 }
